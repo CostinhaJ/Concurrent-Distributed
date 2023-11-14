@@ -39,7 +39,6 @@ public class Cell {
 	}
 
 	public void release() {
-		//TODO
 		ocuppyingSnake = null;
 	}
 
@@ -60,16 +59,18 @@ public class Cell {
 
 
 	public Snake getOcuppyingSnake() {
+		//TODO
 		return ocuppyingSnake;
 	}
 
 
 	public  Goal removeGoal() {
-		// TODO
+		//TODO
 		return null;
 	}
 	public void removeObstacle() {
-	//TODO
+		//TODO
+		gameElement = null;
 	}
 
 

@@ -16,6 +16,17 @@ public class AutomaticSnake extends Snake {
 		super(id,board);
 
 	}
+	
+	private Cell nextCell() {
+		 BoardPosition aux = null;  // Initialize with null or a valid initial position
+		 for (BoardPosition neighbor : getBoard().getNeighboringPositions(cells.getLast())) {
+			 if (aux == null || aux.distanceTo(getBoard().getGoalPosition()) > neighbor.distanceTo(getBoard().getGoalPosition())) {
+				 aux = neighbor;
+			 }
+		 }
+		   
+		return new Cell(aux);
+	}
 
 	@Override
 	public void run() {
@@ -24,10 +35,10 @@ public class AutomaticSnake extends Snake {
 		try {
 			while(true) {
 			cells.getFirst().request(this);
-			Cell next = new Cell(cells.getLast().getPosition().getCellRight());
+			Cell next = nextCell();
 			System.out.println("got cell:" + next.getPosition().toString());
 			move(next);
-			sleep(1000);
+			sleep(getBoard().PLAYER_PLAY_INTERVAL);
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block  //criar uma sentinela e dar release quando sair o objeto da frente

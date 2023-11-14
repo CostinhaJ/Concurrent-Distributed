@@ -46,6 +46,9 @@ public abstract class Snake extends Thread implements Serializable{
 		board.getCell(cell.getPosition()).request(this);
 		if(cells.size() == size) {
 			board.getCell(cells.getFirst().getPosition()).release();
+			/*board.getNeighboringPositions(board.getCell(cells.getFirst().getPosition())).forEach(neighbor -> {
+				neighbor.notify();
+			}); tentativa de dar release às cobras paradas na cauda de outras*/ 
 			cells.removeFirst();
 		}
 		board.setChanged();

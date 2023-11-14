@@ -51,6 +51,10 @@ public class SnakeGui implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
+				System.out.println("Testes");
+				board.getSnakes().forEach(snake ->{
+					snake.interrupt();
+				});
 			}
 				
 		});

@@ -22,9 +22,16 @@ public class AutomaticSnake extends Snake {
 		doInitialPositioning();
 		System.err.println("initial size:"+cells.size());
 		try {
-			cells.getLast().request(this);
+			while(true) {
+			cells.getFirst().request(this);
+			Cell next = new Cell(cells.getLast().getPosition().getCellRight());
+			System.out.println("got cell:" + next.getPosition().toString());
+			move(next);
+			sleep(1000);
+			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block  //criar uma sentinela e dar release quando sair o objeto da frente
+			System.out.println("Program Stoped");
 			e.printStackTrace();
 		}
 		//TODO: automatic movement

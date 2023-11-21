@@ -19,4 +19,13 @@ public class Obstacle extends GameElement {
 		return remainingMoves;
 	}
 
+	//EU
+	public void decrementRemainingMoves() {
+		remainingMoves--;
+	}
+	
+	//EU
+	public int getObstacleMoveInterval() {
+		return OBSTACLE_MOVE_INTERVAL;
+	}
 }

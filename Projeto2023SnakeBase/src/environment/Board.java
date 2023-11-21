@@ -14,7 +14,7 @@ import game.Snake;
 public abstract class Board extends Observable {
 	protected Cell[][] cells;
 	private BoardPosition goalPosition;
-	public static final long PLAYER_PLAY_INTERVAL = 100;
+	public static final long PLAYER_PLAY_INTERVAL = 200;
 	public static final long REMOTE_REFRESH_INTERVAL = 200;
 	public static final int NUM_COLUMNS = 30;
 	public static final int NUM_ROWS = 30;
@@ -37,7 +37,7 @@ public abstract class Board extends Observable {
 	}
 
 	protected BoardPosition getRandomPosition() {
-		return new BoardPosition((int) (Math.random() *NUM_ROWS),(int) (Math.random() * NUM_ROWS));
+		return new BoardPosition((int) (Math.random() *NUM_COLUMNS),(int) (Math.random() * NUM_ROWS));
 	}
 
 	public BoardPosition getGoalPosition() {
@@ -56,7 +56,7 @@ public abstract class Board extends Observable {
 				getCell(pos).setGameElement(gameElement);
 				if(gameElement instanceof Goal) {
 					setGoalPosition(pos);
-//					System.out.println("Goal placed at:"+pos);
+					System.out.println("Goal placed at:"+pos);
 				}
 				placed=true;
 			}
@@ -126,5 +126,11 @@ public abstract class Board extends Observable {
 		snakes.add(snake);
 	}
 
+	public void setFinished() {
+		isFinished=true;
+		for(Snake s : snakes) {
+			s.interrupt();
+		}
+	}
 
 }

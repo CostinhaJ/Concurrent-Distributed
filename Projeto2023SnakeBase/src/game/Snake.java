@@ -41,18 +41,30 @@ public abstract class Snake extends Thread implements Serializable{
 		return cells;
 	}
 	protected void move(Cell cell) throws InterruptedException {
-		// TODO
+		// TODO		
+		board.getCell(cell.getPosition()).request(this);
+		cells.add(cell);
+		if(board.getCell(cell.getPosition()).isOcupiedByGoal()) {
+			size+=board.getCell(cell.getPosition()).getGoal().getValue();
+			board.getCell(cell.getPosition()).getGoal().captureGoal();
+		}
+		if(cells.size() == size) {
+			board.getCell(cells.getFirst().getPosition()).release();
+			cells.removeFirst();
+		}
+		board.setChanged();
+		
+		/* COSTA
 		cells.add(cell);
 		board.getCell(cell.getPosition()).request(this);
 		if(cells.size() == size) {
 			board.getCell(cells.getFirst().getPosition()).release();
-			board.getNeighboringPositions(board.getCell(cells.getFirst().getPosition())).forEach(neighbor -> {
-				Cell aux = new Cell(neighbor);
-				aux.getOcuppyingSnake().notify();
-			}); 
+//			board.getNeighboringPositions(board.getCell(cells.getFirst().getPosition())).forEach(neighbor -> {
+//				neighbor.notify();
+//			}); tentativa de dar release as cobras paradas na cauda de outras 
 			cells.removeFirst();
 		}
-		board.setChanged();
+		board.setChanged(); */
 	}
 	
 	public LinkedList<BoardPosition> getPath() {
@@ -84,4 +96,10 @@ public abstract class Snake extends Thread implements Serializable{
 		return board;
 	}
 	
+	public boolean equals(Snake s) {
+		if(id==s.getId()) {
+			return true;
+		}
+		return false;
+	}
 }

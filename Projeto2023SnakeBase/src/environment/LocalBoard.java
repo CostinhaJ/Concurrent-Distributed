@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import game.GameElement;
 import game.Goal;
 import game.Obstacle;
+import game.ObstacleMover;
 import game.Server;
 import game.Snake;
 import game.AutomaticSnake;
@@ -22,7 +23,7 @@ import game.AutomaticSnake;
  */
 public class LocalBoard extends Board{
 	
-	private static final int NUM_SNAKES = 2;
+	private static final int NUM_SNAKES = 3;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
 
@@ -38,13 +39,17 @@ public class LocalBoard extends Board{
 		addObstacles( NUM_OBSTACLES);
 		
 		Goal goal=addGoal();
-//		System.err.println("All elements placed");
+		System.err.println("All elements placed");
 	}
 
 	public void init() {
+		// TODO: launch other threads
+		ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
 		for(Snake s:snakes)
 			s.start();
-		// TODO: launch other threads
+		for(Obstacle o: getObstacles()) {
+			pool.execute(new ObstacleMover(o, this));
+		}
 		setChanged();
 	}
 

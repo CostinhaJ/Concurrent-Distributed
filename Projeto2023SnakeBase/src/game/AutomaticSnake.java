@@ -42,7 +42,7 @@ public class AutomaticSnake extends Snake {
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block  //criar uma sentinela e dar release quando sair o objeto da frente
-			System.out.println("Program Stoped");
+			System.out.println("A cobra encontrou um obstáculo");
 			e.printStackTrace();
 		}
 		//TODO: automatic movement

@@ -46,9 +46,10 @@ public abstract class Snake extends Thread implements Serializable{
 		board.getCell(cell.getPosition()).request(this);
 		if(cells.size() == size) {
 			board.getCell(cells.getFirst().getPosition()).release();
-			/*board.getNeighboringPositions(board.getCell(cells.getFirst().getPosition())).forEach(neighbor -> {
-				neighbor.notify();
-			}); tentativa de dar release às cobras paradas na cauda de outras*/ 
+			board.getNeighboringPositions(board.getCell(cells.getFirst().getPosition())).forEach(neighbor -> {
+				Cell aux = new Cell(neighbor);
+				aux.getOcuppyingSnake().notify();
+			}); 
 			cells.removeFirst();
 		}
 		board.setChanged();
@@ -82,6 +83,5 @@ public abstract class Snake extends Thread implements Serializable{
 	public Board getBoard() {
 		return board;
 	}
-	
 	
 }

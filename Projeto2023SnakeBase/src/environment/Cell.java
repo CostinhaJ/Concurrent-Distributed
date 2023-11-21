@@ -35,6 +35,9 @@ public class Cell {
 
 	public void request(Snake snake) throws InterruptedException {
 		//TODO coordination and mutual exclusion
+		if( isOcupied()) {
+			snake.interrupt();
+		}
 		ocuppyingSnake=snake;
 	}
 

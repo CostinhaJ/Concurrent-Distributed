@@ -52,9 +52,11 @@ public class SnakeGui implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// TODO
 				System.out.println("Testes");
-				board.getSnakes().forEach(snake ->{
-					snake.interrupt();
+				/*board.getSnakes().forEach(snake ->{
+					snake.notify();
 				});
+				Notificar as threads para começarem a correr novamente
+				*/ 
 			}
 				
 		});

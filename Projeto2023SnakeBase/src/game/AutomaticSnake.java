@@ -40,44 +40,37 @@ public class AutomaticSnake extends Snake {
 	@Override
 	public void run() {
 		//TODO: automatic movement
-	
+	while(!getBoard().isFinished) {
 		try {
 			//cells.getLast().request(this); codigo original mas parece inutil
-			while(true) {
 				sleep(getBoard().PLAYER_PLAY_INTERVAL);
 				Cell next = new Cell(nextBoardPosition());
-				System.out.println("Next cell:" + next.getPosition().toString());
+				//System.out.println("Next cell:" + next.getPosition().toString());
 				move(next);
-			}
-			/* COSTA
-			while(true) {
-			cells.getFirst().request(this);
-			Cell next = nextCell();
-			System.out.println("got cell:" + next.getPosition().toString());
-			move(next);
-			sleep(getBoard().PLAYER_PLAY_INTERVAL);
-			} */
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Program Stoped");
-			
-			try {
-				System.out.println("Esquivo");
-				move(new Cell(avoidObstacle()));
-				run();
-			} catch (InterruptedException i) {
-				// TODO: handle exception
-				System.out.println("Program Stoped");
-				e.printStackTrace();
-			}
-			
-			/* COSTA
-			System.out.println("Program Stoped"); */	
+			moveToNewPosition();
 		}
+	}
+		
 	
 	}
 	
+	private void moveToNewPosition() {
+		try {
+			Cell snakehead = this.cells.getLast();
+			List<BoardPosition> neighbours = getBoard().getNeighboringPositions(snakehead);
+			neighbours.removeIf(position -> getPath().contains(position) || getBoard().getCell(position).isOcupiedByGameElement());
+			if (neighbours.size() == 0) {
+				move(getBoard().getCell(getBoard().getNeighboringPositions(snakehead).get(0)));
+			}else {
+				move(getBoard().getCell(neighbours.get(0)));
+			}
+		}catch (Exception e) {
+			moveToNewPosition();
+		}
+	}
 
 	
 }

@@ -52,9 +52,7 @@ public class SnakeGui implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				// TODO
 				//interrupt a todoas as snakes da board (O catch do interrupt vai mover para um lugar ao lado do obstáculo)
-				board.getSnakes().forEach( snake -> {
-					snake.interrupt();
-				});
+				board.getSnakes().forEach( snake -> snake.interrupt());
 			}
 				
 		});

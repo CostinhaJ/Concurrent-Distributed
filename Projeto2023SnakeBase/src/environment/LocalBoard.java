@@ -26,7 +26,7 @@ public class LocalBoard extends Board{
 	private static final int NUM_SNAKES = 3;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
-
+	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
 	
 
 	public LocalBoard() {
@@ -44,11 +44,10 @@ public class LocalBoard extends Board{
 
 	public void init() {
 		// TODO: launch other threads
-		ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
 		for(Snake s:snakes)
 			s.start();
 		for(Obstacle o: getObstacles()) {
-			pool.execute(new ObstacleMover(o, this));
+			pool.submit(new ObstacleMover(o, this));
 		}
 		setChanged();
 	}
@@ -65,7 +64,13 @@ public class LocalBoard extends Board{
 		// do nothing... No keys relevant in local game
 	}
 
-
+	public void setFinished() {
+		isFinished=true;
+		for(Snake s : snakes) {
+			s.interrupt();
+		}
+		pool.shutdownNow();
+	}
 
 
 

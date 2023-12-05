@@ -1,13 +1,13 @@
 package game;
 
 import environment.BoardPosition;
-import environment.LocalBoard;
+import environment.Board;
 
 public class ObstacleMover extends Thread {
 	private Obstacle obstacle;
-	private LocalBoard board;
+	private Board board;
 	
-	public ObstacleMover(Obstacle obstacle, LocalBoard board) {
+	public ObstacleMover(Obstacle obstacle, Board board) {
 		super();
 		this.obstacle = obstacle;
 		this.board = board;

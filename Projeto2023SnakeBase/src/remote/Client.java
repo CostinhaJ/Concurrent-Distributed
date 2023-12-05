@@ -17,10 +17,11 @@ import game.Server;
  */
 
 public class Client {
-
+	
 	private BufferedReader in;
 	private PrintWriter out;
 	private Socket socket;
+	
 	public static void main(String[] args) {
 		new Client().runClient();
 	}
@@ -28,8 +29,9 @@ public class Client {
 	public void runClient() {
 		try {
 			connectToServer();
-			sendMessages();
-		} catch (IOException e) {// ERRO...
+			StreamInputs();
+		} catch (IOException e) { 
+			System.out.println("Servidor Ficou Indisponível!\nA terminar processo...");
 		} finally {//a fechar...
 			try {
 				socket.close();
@@ -39,29 +41,24 @@ public class Client {
 	}
 
 	void connectToServer() throws IOException {
-		InetAddress endereco = InetAddress.getByName(null);
+		InetAddress endereco = InetAddress.getByName(null); //localhost/127.0.0.1
 		System.out.println("Endereco:" + endereco);
 		socket = new Socket(endereco, Server.PORTO);
 		System.out.println("Socket:" + socket);
 		in = new BufferedReader(new InputStreamReader(
 				socket.getInputStream()));
-		out = new PrintWriter(socket.getOutputStream(),true);
-		//out = new PrintWriter(new BufferedWriter(
-			//	new OutputStreamWriter(socket.getOutputStream())), true);
+		out = new PrintWriter(new BufferedWriter(
+				new OutputStreamWriter(socket.getOutputStream())), true);
 	}
 
-	void sendMessages() throws IOException {
+	void StreamInputs() throws IOException {
 			
 		BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         	while(true) {
         		String message = userInput.readLine();
         		out.println(message);
-        		try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				out.println("FIM");
-			}
-        }
+        		System.out.println("Server disse: " + in.readLine());
+        	}
 		
 	}
 	

@@ -27,38 +27,14 @@ import game.ObstacleMover;
  */
 public class RemoteBoard extends Board{
 
-	private static final int NUM_SNAKES = 3;
-	private static final int NUM_OBSTACLES = 25;
-	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
-	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
-	
 	public RemoteBoard() {
-		
-		for (int i = 0; i < NUM_SNAKES; i++) {
-			AutomaticSnake snake = new AutomaticSnake(i, this);
-			snakes.add(snake);
-		}
-
-		addObstacles( NUM_OBSTACLES);
-		
-		Goal goal=addGoal();
-		System.err.println("All elements placed");
 		
 	}
 	
 	@Override
 	public void handleKeyPress(int keyCode) {
 		//TODO
-		switch(keyCode){
-		case KeyEvent.VK_DOWN:
-			//return DOWN;
-		case KeyEvent.VK_UP:
-			//return UP;
-		case KeyEvent.VK_LEFT:
-			//return LEFT;
-		case KeyEvent.VK_RIGHT:
-			//return RIGHT;
-		}
+	
 	}
 
 	@Override
@@ -69,22 +45,7 @@ public class RemoteBoard extends Board{
 	@Override
 	public void init() {
 	
-		for(Snake s:snakes)
-			s.start();
-		for(Obstacle o: getObstacles()) {
-			pool.submit(new ObstacleMover(o, this));
-		}
-		setChanged();
 	}
-
-	public void setFinished() {
-		isFinished=true;
-		for(Snake s : snakes) {
-			s.interrupt();
-		}
-		pool.shutdownNow();
-	}
-
 	
-
+	
 }

@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import game.Server;
+import game.HumanSnake;
 /** Remore client, only for part II
  * 
  * @author luismota
@@ -28,7 +29,7 @@ public class Client {
 
 	public void runClient() {
 		try {
-			connectToServer();
+			connectToServer();		
 			StreamInputs();
 		} catch (IOException e) { 
 			System.out.println("Servidor Ficou Indisponível!\nA terminar processo...");
@@ -44,11 +45,16 @@ public class Client {
 		InetAddress endereco = InetAddress.getByName(null); //localhost/127.0.0.1
 		System.out.println("Endereco:" + endereco);
 		socket = new Socket(endereco, Server.PORTO);
+		
+		//id = socket.getLocalPort();
+		//System.out.println(id);
+		
 		System.out.println("Socket:" + socket);
 		in = new BufferedReader(new InputStreamReader(
 				socket.getInputStream()));
 		out = new PrintWriter(new BufferedWriter(
 				new OutputStreamWriter(socket.getOutputStream())), true);
+		
 	}
 
 	void StreamInputs() throws IOException {

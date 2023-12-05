@@ -51,10 +51,8 @@ public class AutomaticSnake extends Snake {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			moveToNewPosition();
+			}
 		}
-	}
-		
-	
 	}
 	
 	private void moveToNewPosition() {

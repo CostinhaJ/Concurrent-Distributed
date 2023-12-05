@@ -10,15 +10,31 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import game.HumanSnake;
+import gui.SnakeGui;
 import remote.RemoteBoard;
 
 public class Server {
 	
+	public RemoteBoard board;
 	public static final int PORTO = 8080;
+	
+	public Server(RemoteBoard board){
+		this.board = board;
+		SnakeGui game = new SnakeGui(board, 0, 0);
+		game.init();
+		try {
+			startServing();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Server couldn't boot");
+			System.exit(PORTO);
+		}
+	}
 	
 	public static void main(String[] args) {
 		try {
-			new Server().startServing();
+			new Server(new RemoteBoard()).startServing();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(PORTO);
@@ -26,14 +42,14 @@ public class Server {
 	}
 	
 	 public void startServing() throws IOException {
-		 
+		
 		System.out.println("Server is waiting for clients...");
 		ServerSocket ss = new ServerSocket(PORTO);
 		try {
 			while(true){
 				Socket socket = ss.accept();
 				new ClientProcess(socket).start();
-			}			
+			}
 		} finally {
 			ss.close();
 		}
@@ -43,11 +59,14 @@ public class Server {
 		
 		private BufferedReader in;
 		private PrintWriter out;
+		private HumanSnake snake;
 		
 		//Quando o processo do cliente é criado, as conexões são feitas automáticamente
 		public ClientProcess(Socket socket) throws IOException {  
 			System.out.println("Client connected!");
 			doConnections(socket);
+			snake= new HumanSnake(socket.getLocalPort(), board);
+			board.addSnake(snake);
 		}
 		
 		void doConnections(Socket socket) throws IOException {
@@ -56,6 +75,7 @@ public class Server {
 			out = new PrintWriter(new BufferedWriter(
 					new OutputStreamWriter(socket.getOutputStream())),
 					true);
+			
 		}
 		
 		@Override
@@ -67,12 +87,23 @@ public class Server {
 			}
 		}
 		
-		//O serviço prestado ao cliente deve ser da atualização da interface a cada tick e o handeling de inputs (VK_DOWN, LEFT, RIGHT, UP) 
+		//O handeling de inputs (VK_DOWN, LEFT, RIGHT, UP) 
 		private void serve() throws IOException {
+			
 				while (true) {
-					String str = in.readLine();
-					System.out.println("Cliente disse: " + str);
-					out.println("Echo: " + str);											
+					
+					try {
+						//Movimentação na board e devolve estado ao cliente
+						//Isto come a letra da fila
+						sleep(1000);
+						board.handleKeyPress(in.read());
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					//String str = in.readLine();
+					//System.out.println("Cliente disse: " + str);
+					//out.println("Echo: " + str);											
 					
 				}
 			}	

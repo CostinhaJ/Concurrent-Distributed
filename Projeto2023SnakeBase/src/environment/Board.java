@@ -10,6 +10,7 @@ import game.GameElement;
 import game.Goal;
 import game.Obstacle;
 import game.Snake;
+import game.HumanSnake;
 
 public abstract class Board extends Observable {
 	protected Cell[][] cells;

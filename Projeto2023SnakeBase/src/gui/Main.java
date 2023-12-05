@@ -10,7 +10,7 @@ import game.Server;
 
 public class Main {
 	public static void main(String[] args) {
-		LocalBoard board=new LocalBoard();
+		LocalBoard board = new LocalBoard();
 		SnakeGui game = new SnakeGui(board,0,0);
 		game.init();
 		// Launch server

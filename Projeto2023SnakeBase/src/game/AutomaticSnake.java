@@ -18,11 +18,11 @@ public class AutomaticSnake extends Snake {
 		System.err.println("initial size:"+cells.size());
 	}
 	
-	private BoardPosition avoidObstacle() {
+	/*private BoardPosition avoidObstacle() {
 		BoardPosition obstacle = nextBoardPosition(); //obstaculo
 		BoardPosition head = cells.getLast().getPosition(); //Cabeça da cobra
 		return new BoardPosition(head.x + (head.y - obstacle.y), head.y + (head.x - obstacle.x));  //Fromula, que dá um bloco ao lado da cabeça da cobra
-	}
+	}*/
 	
 	private BoardPosition nextBoardPosition() {
 		BoardPosition aux = null;  // Initialize with null or a valid initial position
@@ -71,6 +71,4 @@ public class AutomaticSnake extends Snake {
 			moveToNewPosition();
 		}
 	}
-
-	
 }

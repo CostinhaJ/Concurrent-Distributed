@@ -17,7 +17,7 @@ import game.HumanSnake;
  *
  */
 
-public class Client {
+public class Client{
 	
 	private BufferedReader in;
 	private PrintWriter out;
@@ -67,5 +67,4 @@ public class Client {
         	}
 		
 	}
-	
 }

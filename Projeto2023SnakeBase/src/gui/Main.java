@@ -15,7 +15,8 @@ public class Main {
 		game.init();*/
 		// Launch server
 		// TODO
-		System.out.println(KeyEvent.VK_S);
+		System.out.println(KeyEvent.VK_W);
 		//Server server = new Server(new RemoteBoard());
+		
 	}
 }

@@ -10,9 +10,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import java.awt.event.KeyEvent;
+
 import game.HumanSnake;
 import gui.SnakeGui;
 import remote.RemoteBoard;
+import environment.Cell;
 
 public class Server {
 	
@@ -81,6 +84,12 @@ public class Server {
 		@Override
 		public void run() {
 			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			try {
 				serve();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -95,19 +104,52 @@ public class Server {
 					try {
 						//Movimentação na board e devolve estado ao cliente
 						//Isto come a letra da fila
-						sleep(1000);
-						board.handleKeyPress(in.read());
-					} catch (Exception e) {
+						int key = in.readLine().charAt(0);
+						System.out.println("Cliente disse: " + key);
+						out.println("Echo: " + key);	
+						key = KeyEvent.getExtendedKeyCodeForChar(key);
+						Cell nextCell = HandleClientCommand(key);
+						if( nextCell != null)
+							snake.nextMove(nextCell);
+					} catch (IOException e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}	
+					
+					try {
+						sleep(board.PLAYER_PLAY_INTERVAL);
+					} catch (InterruptedException e) {
 						// TODO: handle exception
 						e.printStackTrace();
 					}
-					//String str = in.readLine();
-					//System.out.println("Cliente disse: " + str);
-					//out.println("Echo: " + str);											
 					
 				}
 			}	
-		
+		private Cell HandleClientCommand(int keyCode) {
+			
+		switch(keyCode) {
+			case KeyEvent.VK_W:
+				//como ir buscar a classe que chamou handle key, para poder mexer a sua snake
+				System.out.println("Teste Up");
+					return new Cell(snake.getCells().getLast().getPosition().getCellAbove());
+				
+			case KeyEvent.VK_A:
+				System.out.println("Teste Left");
+				return new Cell(snake.getCells().getLast().getPosition().getCellLeft());				
+				
+			case KeyEvent.VK_S:
+				System.out.println("Teste Down");
+				return new Cell(snake.getCells().getLast().getPosition().getCellBelow());				
+				
+			case KeyEvent.VK_D:
+				System.out.println("Teste Right");
+				return new Cell(snake.getCells().getLast().getPosition().getCellRight());
+			
+			default:
+				return null;
+				
+			}
+		}
 	}
-	
 }
+

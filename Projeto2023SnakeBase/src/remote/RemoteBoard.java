@@ -49,8 +49,10 @@ public class RemoteBoard extends Board{
 	@Override
 	public void handleKeyPress(int keyCode) {
 		//TODO
-		switch(keyCode) {
+		/*switch(keyCode) {
 			case KeyEvent.VK_W:
+				
+				//como ir buscar a classe que chamou handle key, para poder mexer a sua snake
 				System.out.println("Teste Up");
 				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellAbove()));
 				break;
@@ -66,7 +68,7 @@ public class RemoteBoard extends Board{
 				System.out.println("Teste Right");
 				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellRight()));
 				break;
-		}
+		}*/
 	
 	}
 

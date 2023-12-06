@@ -25,8 +25,16 @@ public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer
 		
 	}
 	
-	public void move(Cell nextCell) {
-		move(nextCell);
+	public void nextMove(Cell nextCell) {
+		try {
+			if ( getBoard().getCell(nextCell.getPosition()).isOcupied() ) {
+				System.out.println("Invalid Move");
+			}else {
+				move(nextCell);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

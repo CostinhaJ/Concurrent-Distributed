@@ -27,7 +27,6 @@ public class LocalBoard extends Board{
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
 	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
-	
 
 	public LocalBoard() {
 		
@@ -37,7 +36,6 @@ public class LocalBoard extends Board{
 		}
 
 		addObstacles( NUM_OBSTACLES);
-		
 		Goal goal=addGoal();
 		System.err.println("All elements placed");
 	}
@@ -71,7 +69,5 @@ public class LocalBoard extends Board{
 		}
 		pool.shutdownNow();
 	}
-
-
 
 }

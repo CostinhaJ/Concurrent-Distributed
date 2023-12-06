@@ -12,12 +12,14 @@ import environment.LocalBoard;
 import environment.Board;
 import environment.BoardPosition;
 import environment.Cell;
+
 import game.AutomaticSnake;
 import game.Goal;
 import game.Obstacle;
 import game.Snake;
-import game.AutomaticSnake;
+import game.HumanSnake;
 import game.ObstacleMover;
+
 
 /** Remote representation of the game, no local threads involved.
  * Game state will be changed when updated info is received from Server.
@@ -26,65 +28,62 @@ import game.ObstacleMover;
  *
  */
 public class RemoteBoard extends Board{
-
-	private static final int NUM_SNAKES = 3;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
 	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
 	
 	public RemoteBoard() {
-		
-		for (int i = 0; i < NUM_SNAKES; i++) {
-			AutomaticSnake snake = new AutomaticSnake(i, this);
-			snakes.add(snake);
-		}
-
 		addObstacles( NUM_OBSTACLES);
-		
 		Goal goal=addGoal();
 		System.err.println("All elements placed");
-		
+	}
+	
+	@Override
+	public void init() {
+		for(Obstacle o: getObstacles()) {
+			pool.submit(new ObstacleMover(o, this));
+		}
+		setChanged();
 	}
 	
 	@Override
 	public void handleKeyPress(int keyCode) {
 		//TODO
-		switch(keyCode){
-		case KeyEvent.VK_DOWN:
-			//return DOWN;
-		case KeyEvent.VK_UP:
-			//return UP;
-		case KeyEvent.VK_LEFT:
-			//return LEFT;
-		case KeyEvent.VK_RIGHT:
-			//return RIGHT;
-		}
+		/*switch(keyCode) {
+			case KeyEvent.VK_W:
+				
+				//como ir buscar a classe que chamou handle key, para poder mexer a sua snake
+				System.out.println("Teste Up");
+				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellAbove()));
+				break;
+			case KeyEvent.VK_A:
+				System.out.println("Teste Left");
+				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellLeft()));
+				break;
+			case KeyEvent.VK_S:
+				System.out.println("Teste Down");
+				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellBelow()));
+				break;
+			case KeyEvent.VK_D:
+				System.out.println("Teste Right");
+				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellRight()));
+				break;
+		}*/
+	
 	}
 
 	@Override
 	public void handleKeyRelease() {
 		// TODO
 	}
-
-	@Override
-	public void init() {
 	
-		for(Snake s:snakes)
-			s.start();
-		for(Obstacle o: getObstacles()) {
-			pool.submit(new ObstacleMover(o, this));
-		}
-		setChanged();
-	}
-
-	public void setFinished() {
+	@Override
+	public void setFinished(){
 		isFinished=true;
 		for(Snake s : snakes) {
 			s.interrupt();
 		}
 		pool.shutdownNow();
 	}
-
 	
-
 }

@@ -11,18 +11,43 @@ import remote.RemoteBoard;
   * @author luismota
   *
   */
-public abstract class HumanSnake extends Snake {
-	
-	public RemoteBoard board;
+public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer isto, mas não conseguia instanciar a classe por ser abstrata
 	
 	public HumanSnake(int id, RemoteBoard board) {
-		super(id,board);
-		this.board = board;
+		super(id, board);
+		doInitialPositioning();
+		try {
+			sleep(1000);	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.err.println("initial size:"+cells.size());
+		
+	}
+	
+	public void nextMove(Cell nextCell) {
+		try {
+			if ( getBoard().getCell(nextCell.getPosition()).isOcupied() ) {
+				System.out.println("Invalid Move");
+			}else {
+				move(nextCell);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void run() {
-		
+	public void run() { //Receber instruções do server, que vêem do input dado pelo cliente com ID desta cobra.
+		while(!getBoard().isFinished) {
+			try {
+				System.out.println("Sleeping...");
+				sleep(getBoard().PLAYER_PLAY_INTERVAL);
+			} catch (InterruptedException e) {
+				// TODO: handle exception
+				System.exit(0);
+			}
+		}
 	}
 
 }

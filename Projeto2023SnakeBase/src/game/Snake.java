@@ -20,7 +20,7 @@ public abstract class Snake extends Thread implements Serializable{
 	private int id;
 	private Board board;
 	
-	public Snake(int id,Board board) {
+	public Snake(int id, Board board) {
 		this.id = id;
 		this.board=board;
 	}

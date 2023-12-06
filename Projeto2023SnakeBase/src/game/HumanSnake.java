@@ -43,8 +43,9 @@ public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer
 			try {
 				System.out.println("Sleeping...");
 				sleep(getBoard().PLAYER_PLAY_INTERVAL);
-			} catch (Exception e) {
+			} catch (InterruptedException e) {
 				// TODO: handle exception
+				System.exit(0);
 			}
 		}
 	}

@@ -22,7 +22,23 @@ public class AutomaticSnake extends Snake {
 		BoardPosition obstacle = nextBoardPosition(); //obstaculo
 		BoardPosition head = cells.getLast().getPosition(); //Cabeça da cobra
 		return new BoardPosition(head.x + (head.y - obstacle.y), head.y + (head.x - obstacle.x));  //Fromula, que dá um bloco ao lado da cabeça da cobra
-	}*/
+	}*/	
+
+	@Override
+	public void run() {
+		//TODO: automatic movement
+	while(!getBoard().isFinished) {
+		try {
+				sleep(getBoard().PLAYER_PLAY_INTERVAL);
+				Cell next = new Cell(nextBoardPosition());
+				move(next);
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			moveToNewPosition();
+			}
+		}
+	}
 	
 	private BoardPosition nextBoardPosition() {
 		BoardPosition aux = null;  // Initialize with null or a valid initial position
@@ -35,24 +51,6 @@ public class AutomaticSnake extends Snake {
 		}
 		 
 		return aux;
-	}
-
-	@Override
-	public void run() {
-		//TODO: automatic movement
-	while(!getBoard().isFinished) {
-		try {
-			//cells.getLast().request(this); codigo original mas parece inutil
-				sleep(getBoard().PLAYER_PLAY_INTERVAL);
-				Cell next = new Cell(nextBoardPosition());
-				//System.out.println("Next cell:" + next.getPosition().toString());
-				move(next);
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			moveToNewPosition();
-			}
-		}
 	}
 	
 	private void moveToNewPosition() {

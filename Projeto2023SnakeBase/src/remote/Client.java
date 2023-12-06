@@ -44,11 +44,7 @@ public class Client{
 	void connectToServer() throws IOException {
 		InetAddress endereco = InetAddress.getByName(null); //localhost/127.0.0.1
 		System.out.println("Endereco:" + endereco);
-		socket = new Socket(endereco, Server.PORTO);
-		
-		//id = socket.getLocalPort();
-		//System.out.println(id);
-		
+		socket = new Socket(endereco, Server.PORTO);		
 		System.out.println("Socket:" + socket);
 		in = new BufferedReader(new InputStreamReader(
 				socket.getInputStream()));
@@ -62,9 +58,10 @@ public class Client{
 		BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         	while(true) {
         		String message = userInput.readLine();
-        		out.println(message);
-        		System.out.println("Server disse: " + in.readLine());
-        	}
-		
+        		 if (message != null && !message.isEmpty()) {
+	        		out.println(message);
+	        		System.out.println("Server Eco: " + in.readLine());
+        		 }
+        	}		
 	}
 }

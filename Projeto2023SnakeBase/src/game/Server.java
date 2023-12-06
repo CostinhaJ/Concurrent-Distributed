@@ -22,8 +22,9 @@ public class Server {
 	public RemoteBoard board;
 	public static final int PORTO = 8080;
 	
-	public Server(RemoteBoard board){
+	public Server(){
 		this.board = board;
+		this.board = new RemoteBoard();
 		SnakeGui game = new SnakeGui(board, 0, 0);
 		game.init();
 		try {
@@ -37,7 +38,7 @@ public class Server {
 	
 	public static void main(String[] args) {
 		try {
-			new Server(new RemoteBoard()).startServing();
+			new Server().startServing();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(PORTO);
@@ -99,50 +100,49 @@ public class Server {
 		//O handeling de inputs (VK_DOWN, LEFT, RIGHT, UP) 
 		private void serve() throws IOException {
 			
-				while (true) {
-					
-					try {
-						//Movimentação na board e devolve estado ao cliente
-						//Isto come a letra da fila
-						int key = in.readLine().charAt(0);
-						System.out.println("Cliente disse: " + key);
-						out.println("Echo: " + key);	
-						key = KeyEvent.getExtendedKeyCodeForChar(key);
-						Cell nextCell = HandleClientCommand(key);
-						if( nextCell != null)
-							snake.nextMove(nextCell);
-					} catch (IOException e) {
-						// TODO: handle exception
-						e.printStackTrace();
-					}	
-					
-					try {
-						sleep(board.PLAYER_PLAY_INTERVAL);
-					} catch (InterruptedException e) {
-						// TODO: handle exception
-						e.printStackTrace();
-					}
-					
-				}
-			}	
+			while (true) {
+			    try {
+			        String str = in.readLine();			       
+			        if (str != null && !str.isEmpty()) {
+			            int key = str.charAt(0);
+			            //System.out.println("Cliente disse: " + key);
+			            out.println("Echo: " + key);
+			            key = KeyEvent.getExtendedKeyCodeForChar(key);
+			            Cell nextCell = HandleClientCommand(key);
+			            if (nextCell != null)
+			                snake.nextMove(nextCell);
+			        }
+			    } catch (IOException e) {			        
+			        e.printStackTrace();
+			    }
+
+			    try {			    
+			        sleep(board.PLAYER_PLAY_INTERVAL);
+			    } catch (InterruptedException e) {		    	
+			        e.printStackTrace();
+			    }			    
+			}
+
+		}	
+		
 		private Cell HandleClientCommand(int keyCode) {
 			
 		switch(keyCode) {
 			case KeyEvent.VK_W:
 				//como ir buscar a classe que chamou handle key, para poder mexer a sua snake
-				System.out.println("Teste Up");
+				//System.out.println("Teste Up");
 					return new Cell(snake.getCells().getLast().getPosition().getCellAbove());
 				
 			case KeyEvent.VK_A:
-				System.out.println("Teste Left");
+				//System.out.println("Teste Left");
 				return new Cell(snake.getCells().getLast().getPosition().getCellLeft());				
 				
 			case KeyEvent.VK_S:
-				System.out.println("Teste Down");
+				//System.out.println("Teste Down");
 				return new Cell(snake.getCells().getLast().getPosition().getCellBelow());				
 				
 			case KeyEvent.VK_D:
-				System.out.println("Teste Right");
+				//System.out.println("Teste Right");
 				return new Cell(snake.getCells().getLast().getPosition().getCellRight());
 			
 			default:

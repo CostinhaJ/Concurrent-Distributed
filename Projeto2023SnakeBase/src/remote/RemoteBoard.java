@@ -80,6 +80,9 @@ public class RemoteBoard extends Board{
 	@Override
 	public void setFinished(){
 		isFinished=true;
+		for(Snake s : snakes) {
+			s.interrupt();
+		}
 		pool.shutdownNow();
 	}
 	

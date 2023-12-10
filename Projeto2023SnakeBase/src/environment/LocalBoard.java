@@ -23,7 +23,7 @@ import game.AutomaticSnake;
  */
 public class LocalBoard extends Board{
 	
-	private static final int NUM_SNAKES = 3;
+	private static final int NUM_SNAKES = 0;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
 	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
@@ -62,7 +62,7 @@ public class LocalBoard extends Board{
 		// do nothing... No keys relevant in local game
 	}
 
-	public void setFinished() {
+	public void setFinished(){
 		isFinished=true;
 		for(Snake s : snakes) {
 			s.interrupt();

@@ -28,11 +28,14 @@ import game.ObstacleMover;
  *
  */
 public class RemoteBoard extends Board{
+
+	private Client cliente;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
 	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
 	
-	public RemoteBoard() {
+	public RemoteBoard(Client cliente) {
+		this.cliente = cliente;
 		addObstacles( NUM_OBSTACLES);
 		Goal goal=addGoal();
 		System.err.println("All elements placed");
@@ -47,28 +50,49 @@ public class RemoteBoard extends Board{
 	}
 	
 	@Override
-	public void handleKeyPress(int keyCode) {
+	public void handleKeyPress(int keyCode){
 		//TODO
-		/*switch(keyCode) {
+		
+		try {			
+			switch(keyCode) {
 			case KeyEvent.VK_W:
-				
-				//como ir buscar a classe que chamou handle key, para poder mexer a sua snake
+				cliente.StreamInput("w");				
 				System.out.println("Teste Up");
-				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellAbove()));
+				break;
+			case KeyEvent.VK_UP:
+				cliente.StreamInput("w");				
+				System.out.println("Teste Up");
 				break;
 			case KeyEvent.VK_A:
+				cliente.StreamInput("a");
 				System.out.println("Teste Left");
-				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellLeft()));
+				break;
+			case KeyEvent.VK_LEFT:
+				cliente.StreamInput("a");
+				System.out.println("Teste Left");
 				break;
 			case KeyEvent.VK_S:
+				cliente.StreamInput("s");
 				System.out.println("Teste Down");
-				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellBelow()));
+				break;
+			case KeyEvent.VK_DOWN:
+				cliente.StreamInput("a");
+				System.out.println("Teste Left");
 				break;
 			case KeyEvent.VK_D:
+				cliente.StreamInput("d");
 				System.out.println("Teste Right");
-				//snake.move(new Cell(snake.getCells().getLast().getPosition().getCellRight()));
 				break;
-		}*/
+			case KeyEvent.VK_RIGHT:
+				cliente.StreamInput("a");
+				System.out.println("Teste Left");
+				break;
+		}
+			
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
+		
 	
 	}
 

@@ -8,6 +8,7 @@ public class Goal extends GameElement  {
 	private int value=1;
 	private Board board;
 	public static final int MAX_VALUE=10;
+	
 	public Goal( Board board2) {
 		this.board = board2;
 	}

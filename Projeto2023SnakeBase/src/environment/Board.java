@@ -76,14 +76,11 @@ public abstract class Board extends Observable {
 		if(pos.y<NUM_ROWS-1)
 			possibleCells.add(pos.getCellBelow());
 		return possibleCells;
-
 	}
-
-	
 
 	protected Goal addGoal() {
 		Goal goal=new Goal(this);
-		addGameElement( goal);
+		addGameElement(goal);
 		return goal;
 	}
 
@@ -102,7 +99,6 @@ public abstract class Board extends Observable {
 		return snakes;
 	}
 
-
 	@Override
 	public void setChanged() {
 		super.setChanged();
@@ -113,25 +109,16 @@ public abstract class Board extends Observable {
 		return obstacles;
 	}
 
+	public void addSnake(Snake snake) {
+		snakes.add(snake);
+	}
 	
 	public abstract void init(); 
 	
 	public abstract void handleKeyPress(int keyCode);
 
 	public abstract void handleKeyRelease();
-	
-	
-	
 
-	public void addSnake(Snake snake) {
-		snakes.add(snake);
-	}
-
-	public void setFinished() {
-		isFinished=true;
-		for(Snake s : snakes) {
-			s.interrupt();
-		}
-	}
+	public abstract void setFinished();
 
 }

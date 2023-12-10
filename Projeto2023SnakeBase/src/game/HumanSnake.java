@@ -13,7 +13,7 @@ import remote.RemoteBoard;
   */
 public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer isto, mas não conseguia instanciar a classe por ser abstrata
 	
-	public HumanSnake(int id, RemoteBoard board) {
+	public HumanSnake(int id, Board board) {
 		super(id, board);
 		doInitialPositioning();
 		try {

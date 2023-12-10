@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -14,17 +15,16 @@ import java.awt.event.KeyEvent;
 
 import game.HumanSnake;
 import gui.SnakeGui;
-import remote.RemoteBoard;
+import environment.LocalBoard;
 import environment.Cell;
 
 public class Server {
 	
-	public RemoteBoard board;
+	public LocalBoard board;
 	public static final int PORTO = 8080;
 	
 	public Server(){
-		this.board = board;
-		this.board = new RemoteBoard();
+		this.board = new LocalBoard();
 		SnakeGui game = new SnakeGui(board, 0, 0);
 		game.init();
 		try {
@@ -62,7 +62,8 @@ public class Server {
 	public class ClientProcess extends Thread {
 		
 		private BufferedReader in;
-		private PrintWriter out;
+		private ObjectOutputStream out;
+		private PrintWriter outEco;
 		private HumanSnake snake;
 		
 		//Quando o processo do cliente é criado, as conexões são feitas automáticamente
@@ -76,9 +77,7 @@ public class Server {
 		void doConnections(Socket socket) throws IOException {
 			in = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
-			out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream())),
-					true);
+			out = new ObjectOutputStream ( socket . getOutputStream ());
 			
 		}
 		
@@ -106,21 +105,19 @@ public class Server {
 			        if (str != null && !str.isEmpty()) {
 			            int key = str.charAt(0);
 			            //System.out.println("Cliente disse: " + key);
-			            out.println("Echo: " + key);
+			            outEco.println("Echo: " + key);
 			            key = KeyEvent.getExtendedKeyCodeForChar(key);
-			            Cell nextCell = HandleClientCommand(key);
-			            if (nextCell != null)
+			            Cell nextCell = HandleClientCommand(key);			           
+			            if (nextCell != null) {
 			                snake.nextMove(nextCell);
+			            	}
+			            out.writeObject(board);//Enviar estado em objeto ao cliente (out...)
+			            sleep(board.PLAYER_PLAY_INTERVAL);
 			        }
-			    } catch (IOException e) {			        
+			    } catch (InterruptedException e) {			        
 			        e.printStackTrace();
 			    }
-
-			    try {			    
-			        sleep(board.PLAYER_PLAY_INTERVAL);
-			    } catch (InterruptedException e) {		    	
-			        e.printStackTrace();
-			    }			    
+			  
 			}
 
 		}	

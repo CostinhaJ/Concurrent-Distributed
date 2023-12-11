@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.util.List;
 
 import environment.Board;
@@ -11,7 +12,7 @@ import remote.RemoteBoard;
   * @author luismota
   *
   */
-public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer isto, mas não conseguia instanciar a classe por ser abstrata
+public /*abstract*/ class HumanSnake extends Snake implements Serializable {   //Não sei se podia fazer isto, mas não conseguia instanciar a classe por ser abstrata
 	
 	public HumanSnake(int id, Board board) {
 		super(id, board);
@@ -25,7 +26,7 @@ public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer
 		
 	}
 	
-	public void nextMove(Cell nextCell) {
+	/*public void nextMove(Cell nextCell) {
 		try {
 			if ( getBoard().getCell(nextCell.getPosition()).isOcupied() ) {
 				System.out.println("Invalid Move");
@@ -35,7 +36,7 @@ public /*abstract*/ class HumanSnake extends Snake {   //Não sei se podia fazer
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	@Override
 	public void run() { //Receber instruções do server, que vêem do input dado pelo cliente com ID desta cobra.

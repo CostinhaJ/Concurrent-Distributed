@@ -117,7 +117,9 @@ public class BoardComponent extends JComponent implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//System.out.println("Got key pressed.");
 		if(e.getKeyCode()!=KeyEvent.VK_LEFT && e.getKeyCode()!=KeyEvent.VK_RIGHT && 
-				e.getKeyCode()!=KeyEvent.VK_UP && e.getKeyCode()!=KeyEvent.VK_DOWN ) { 
+				e.getKeyCode()!=KeyEvent.VK_UP && e.getKeyCode()!=KeyEvent.VK_DOWN && 
+				e.getKeyCode()!=KeyEvent.VK_W && e.getKeyCode()!=KeyEvent.VK_A && 								
+				e.getKeyCode()!=KeyEvent.VK_S&& e.getKeyCode()!=KeyEvent.VK_D) { 
 			return; // ignore
 		}
 		board.handleKeyPress(e.getKeyCode());
@@ -126,11 +128,12 @@ public class BoardComponent extends JComponent implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode()!=KeyEvent.VK_LEFT && e.getKeyCode()!=KeyEvent.VK_RIGHT && 
-				e.getKeyCode()!=KeyEvent.VK_UP && e.getKeyCode()!=KeyEvent.VK_DOWN ) {
+				e.getKeyCode()!=KeyEvent.VK_UP && e.getKeyCode()!=KeyEvent.VK_DOWN && 
+				e.getKeyCode()!=KeyEvent.VK_W && e.getKeyCode()!=KeyEvent.VK_A && 								
+				e.getKeyCode()!=KeyEvent.VK_S&& e.getKeyCode()!=KeyEvent.VK_D) {
 			return; // ignore
 		
 		}
-		System.out.println("Got key released.");
 		board.handleKeyRelease();
 	}
 

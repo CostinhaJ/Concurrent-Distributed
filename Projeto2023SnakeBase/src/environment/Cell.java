@@ -17,12 +17,13 @@ import game.AutomaticSnake;
  * @author luismota
  *
  */
-public class Cell {
+public class Cell implements Serializable {
+	
 	private BoardPosition position;
 	private Snake ocuppyingSnake = null;
 	private GameElement gameElement=null;
+
 	
-	// EU
 	private Lock rrlock = new ReentrantLock();
 	private Lock gelock = new ReentrantLock();
 	private Condition freeCell = rrlock.newCondition();

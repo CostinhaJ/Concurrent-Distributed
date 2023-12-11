@@ -77,7 +77,10 @@ public class Server {
 		void doConnections(Socket socket) throws IOException {
 			in = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
-			out = new ObjectOutputStream ( socket . getOutputStream ());
+			out = new ObjectOutputStream ( socket.getOutputStream ());
+			
+			outEco = new PrintWriter(new BufferedWriter(
+					new OutputStreamWriter(socket.getOutputStream())), true);
 			
 		}
 		
@@ -104,17 +107,20 @@ public class Server {
 			        String str = in.readLine();			       
 			        if (str != null && !str.isEmpty()) {
 			            int key = str.charAt(0);
-			            //System.out.println("Cliente disse: " + key);
+			            System.out.println("Cliente disse: " + str + key);
 			            outEco.println("Echo: " + key);
 			            key = KeyEvent.getExtendedKeyCodeForChar(key);
 			            Cell nextCell = HandleClientCommand(key);			           
 			            if (nextCell != null) {
-			                snake.nextMove(nextCell);
+			                snake.move(nextCell);
 			            	}
-			            out.writeObject(board);//Enviar estado em objeto ao cliente (out...)
+			            //out.writeObject(board.getSnakes());
+			            //out.writeObject(board.getObstacles());
+			            //out.writeObject(board.getGoalPosition());
+			            //out.writeObject(board.cells);
 			            sleep(board.PLAYER_PLAY_INTERVAL);
 			        }
-			    } catch (InterruptedException e) {			        
+			    } catch (InterruptedException e) {			       
 			        e.printStackTrace();
 			    }
 			  

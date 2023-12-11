@@ -10,9 +10,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 
+import environment.Board;
 import environment.Cell;
 import game.Server;
+import game.Snake;
+import gui.SnakeGui;
 import game.HumanSnake;
 /** Remore client, only for part II
  * 
@@ -24,29 +29,35 @@ public class Client{
 	
 	private RemoteBoard board;
 	private ObjectInputStream in;
+	private BufferedReader inEco;
 	private PrintWriter out;
 	private Socket socket;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException {
 		new Client().runClient();
 	}
 
-	public void runClient() {
+	public void runClient() throws ClassNotFoundException{
 		try {
-			createRemoteBoard();
-			connectToServer();		
+			createGUI();
+			connectToServer();	
+			comunicateWithServer();
 		} catch (IOException e) { 
+			e.printStackTrace();
 			System.out.println("Servidor Ficou Indisponível!\nA terminar processo...");
 		} finally {//a fechar...
 			try {
 				socket.close();
 			} catch (IOException e) {//... 
+				e.printStackTrace();
 			}
 		}
 	}
 	
-	void createRemoteBoard() {
+	void createGUI() {
 		board = new RemoteBoard(this);
+		SnakeGui game = new SnakeGui(board, 0, 0);
+		game.init();
 	}
 
 	void connectToServer() throws IOException {
@@ -55,25 +66,26 @@ public class Client{
 		socket = new Socket(endereco, Server.PORTO);		
 		System.out.println("Socket:" + socket);
 		in = new ObjectInputStream ( socket.getInputStream ());
+		inEco = new BufferedReader(new InputStreamReader(
+				socket.getInputStream()));
 		out = new PrintWriter(new BufferedWriter(
 				new OutputStreamWriter(socket.getOutputStream())), true);
 		
 	}
 	
-	void listenToServer() throws IOException {
+	void comunicateWithServer() throws IOException, ClassNotFoundException {
     	while(true) {	              
-    		//Board newBoardState = in.getObject()       
-    		// if (state != null && !state.isEmpty()) {
-    			//update das posições de snakes e obstacles
-    			//trocar os objetos de snakes e obstáculos.
-        		//board.setChanged();
+    		System.out.println("Server Eco: " + inEco.readLine()); 
+    		//LinkedList<Snake> state = (LinkedList<Snake>)in.readObject();       
+    		//if (state != null) {
+    		//	board.snakes = state;
     		// }
-    	}		
+    		board.setChanged();
+    	}	
 	}
 
-	void StreamInput(String s) throws IOException {    	
-		if (s != null && !s.isEmpty()) 		                    
-			out.println(s);	 
+	void StreamInput(String s) throws IOException {
+		out.println(s);	 
 	}
 	
 }

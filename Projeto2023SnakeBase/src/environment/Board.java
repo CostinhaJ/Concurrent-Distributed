@@ -12,15 +12,15 @@ import game.Obstacle;
 import game.Snake;
 import game.HumanSnake;
 
-public abstract class Board extends Observable {
-	protected Cell[][] cells;
-	private BoardPosition goalPosition;
+public abstract class Board extends Observable implements Serializable {
+	public Cell[][] cells;
+	public BoardPosition goalPosition;
 	public static final long PLAYER_PLAY_INTERVAL = 100;
 	public static final long REMOTE_REFRESH_INTERVAL = 200;
 	public static final int NUM_COLUMNS = 30;
 	public static final int NUM_ROWS = 30;
-	protected LinkedList<Snake> snakes = new LinkedList<Snake>();
-	private LinkedList<Obstacle> obstacles= new LinkedList<Obstacle>();
+	public LinkedList<Snake> snakes = new LinkedList<Snake>();
+	public LinkedList<Obstacle> obstacles= new LinkedList<Obstacle>();
 	public boolean isFinished;
 
 	public Board() {

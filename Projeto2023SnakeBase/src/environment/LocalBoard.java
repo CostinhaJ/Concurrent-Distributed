@@ -26,7 +26,7 @@ public class LocalBoard extends Board{
 	private static final int NUM_SNAKES = 0;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
-	private ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
+	private transient ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
 
 	public LocalBoard() {
 		
@@ -40,8 +40,13 @@ public class LocalBoard extends Board{
 		System.err.println("All elements placed");
 	}
 
-	public void init() {
+	public void init(){
 		// TODO: launch other threads
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException  e) {
+			e.printStackTrace();
+		}
 		for(Snake s:snakes)
 			s.start();
 		for(Obstacle o: getObstacles()) {

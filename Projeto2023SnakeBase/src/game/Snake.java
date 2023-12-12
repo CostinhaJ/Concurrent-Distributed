@@ -16,7 +16,7 @@ import environment.Cell;
  */
 public abstract class Snake extends Thread implements Serializable{
 	protected LinkedList<Cell> cells = new LinkedList<Cell>();
-	protected int size = 10;
+	protected int size = 5;
 	private int id;
 	private Board board;
 	

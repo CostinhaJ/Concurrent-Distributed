@@ -1,10 +1,12 @@
 package game;
 
+import java.io.Serializable;
+
 import environment.Board;
 import environment.BoardPosition;
 import environment.LocalBoard;
 
-public class Goal extends GameElement  {
+public class Goal extends GameElement implements Serializable {
 	private int value=1;
 	private Board board;
 	public static final int MAX_VALUE=10;
@@ -16,12 +18,8 @@ public class Goal extends GameElement  {
 	public int getValue() {
 		return value;
 	}
-	public void incrementValue() throws InterruptedException {
-		//TODO
+	public void incrementValue() throws InterruptedException {		
 		value++;
-		if(value==MAX_VALUE) {
-			board.setFinished();
-		}
 	}
 
 	public int captureGoal() {
@@ -29,6 +27,10 @@ public class Goal extends GameElement  {
 		try {
 			board.getCell(board.getGoalPosition()).removeGoal();
 			incrementValue();
+			if(value==MAX_VALUE) {
+				board.setFinished();
+				return 1;
+			}
 			boolean valid=false;
 			while(valid==false) {
 				BoardPosition bp = new BoardPosition((int) (Math.random() *board.NUM_COLUMNS),(int) (Math.random() * board.NUM_ROWS));

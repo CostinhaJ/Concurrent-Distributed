@@ -8,7 +8,6 @@ public class Killer extends GameElement {
 
 	private Board board;
 	private int id;
-	private Cell previous;
 	
 	public Killer(int id, Board board){
 		this.board = board;
@@ -48,6 +47,10 @@ public class Killer extends GameElement {
 	
 	private Board getBoard() {
 		return board;
+	}
+	
+	public int getKillerId() {
+		return this.id;
 	}
 	
 }

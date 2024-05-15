@@ -40,18 +40,18 @@ public class SnakeGui implements Observer {
 		frame.setSize((int)(Math.round(LocalBoard.WIDTH*SnakeGui.BOARD_WIDTH/(double)SnakeGui.NUM_COLUMNS)),
 		(int)(Math.round((LocalBoard.HEIGHT) +2.7)* SnakeGui.BOARD_HEIGHT/(double)SnakeGui.NUM_ROWS));
 		
-		JButton resetObstaclesButton=new JButton("Reset snakes' directions");
-		resetObstaclesButton.addActionListener(new ActionListener() {
+		//JButton resetObstaclesButton=new JButton("Reset snakes' directions");
+		//resetObstaclesButton.addActionListener(new ActionListener() {
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO
-				//interrupt a todoas as snakes da board (O catch do interrupt vai mover para um lugar ao lado do obstáculo)
-				board.getSnakes().forEach( snake -> snake.interrupt());
-			}
-				
-		});
-		frame.add(resetObstaclesButton,BorderLayout.SOUTH);
+		//	@Override
+		//	public void actionPerformed(ActionEvent e) {
+		//		// TODO
+		//		//interrupt a todoas as snakes da board (O catch do interrupt vai mover para um lugar ao lado do obstáculo)
+		//		board.getSnakes().forEach( snake -> snake.interrupt());
+		//	}
+		//		
+		//});
+		//frame.add(resetObstaclesButton,BorderLayout.SOUTH);
 		
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -44,7 +44,7 @@ public abstract class Snake extends Thread {
 		return cells;
 	}
 	
-	protected void move(Cell cell) throws InterruptedException {
+	public void move(Cell cell) throws InterruptedException {
 		//TODO
 		board.getCell(cell.getPosition()).request(this);
 		cells.add(cell);

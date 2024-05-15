@@ -67,7 +67,7 @@ CyclicBarrier.NUMBER WAITERS*/
 		try {
 			while(isOcupied())
 				snakeFree.await();
-				ocuppyingSnake=snake;
+			ocuppyingSnake=snake;
 		} finally {
 			rrlock.unlock();
 		}
@@ -82,9 +82,6 @@ CyclicBarrier.NUMBER WAITERS*/
 		} finally {
 			rrlock.unlock();
 		}
-		
-		/* COSTA
-		ocuppyingSnake = null; */
 	}
 
 	public boolean isOcupiedBySnake() {

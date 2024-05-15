@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
-import game.CyclicBarrier;
 import game.GameElement;
 import game.Goal;
 import game.Killer;
@@ -35,9 +36,10 @@ public abstract class Board extends Observable {
 				cells[x][y] = new Cell(new BoardPosition(x, y));
 			}
 		}
-		cb = new CyclicBarrier(this, () ->{
-			 System.out.println("All threads have reached the barrier!");
-		});
+		
+		cb = new CyclicBarrier(3, () -> {
+			this.addGameElement(new Killer(this.numKillers() ,this));	
+			});
 
 	}
 
@@ -155,8 +157,15 @@ public abstract class Board extends Observable {
 	
 	public abstract void init(); 
 	
-	public void requestCyclycBarrier() throws InterruptedException{
-		cb.await();
+	public void requestCyclycBarrier(){
+		try {
+			cb.await();
+		}catch(BrokenBarrierException e) {
+			cb.reset();
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	

@@ -36,7 +36,7 @@ public class ObstacleMover extends Thread {
 							break;
 						}
 					}
-					if(done==true)
+					if(done==true)						
 						break;
 				}
 			}

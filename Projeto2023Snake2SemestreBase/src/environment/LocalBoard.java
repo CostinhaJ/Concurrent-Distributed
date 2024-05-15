@@ -33,8 +33,6 @@ public class LocalBoard extends Board{
 		Goal goal=addGoal();
 		System.err.println("All elements placed");
 	}
-
-	// synchronization in cell
 	
 	public void init() {
 		// TODO
@@ -56,7 +54,6 @@ public class LocalBoard extends Board{
 	
 	public void removeSnake(BoardPosition position) {
 //		TODO
-		// killed by killer remove from board
 		new Cell(position).getOcuppyingSnake().getCells().remove();
 	}
 

@@ -65,9 +65,10 @@ CyclicBarrier.NUMBER WAITERS*/
 		//TODO coordination and mutual exclusion
 		rrlock.lock();
 		try {
-			while(isOcupied())
+			while(isOcupied()) 
 				snakeFree.await();
-			ocuppyingSnake=snake;
+				
+				ocuppyingSnake=snake;
 		} finally {
 			rrlock.unlock();
 		}
@@ -107,6 +108,7 @@ CyclicBarrier.NUMBER WAITERS*/
 	public  void removeGameElement(GameElement element) throws InterruptedException {
 		
 		gelock.lock();		
+		release();
 		gameElement = null;		
 		gelock.unlock();	
 		
@@ -139,10 +141,7 @@ CyclicBarrier.NUMBER WAITERS*/
 			rrlock.unlock();
 		}
 		
-		/* COSTA
-		gameElement = null; */
 	}
-
 
 	public Goal getGoal() {
 		return (Goal)gameElement;

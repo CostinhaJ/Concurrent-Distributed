@@ -17,6 +17,8 @@ import environment.BoardPosition;
 import environment.Cell;
 import environment.LocalBoard;
 import game.AutomaticSnake;
+import game.Goal;
+import game.Killer;
 import game.Snake;
 import gui.SnakeGui;
 import remote.ActionResult;
@@ -102,7 +104,7 @@ public class Server {
 								sleep(200);;
 							}							
 						} catch (Exception e) {
-							e.printStackTrace();						
+							e.printStackTrace();					
 								}
 					board.setChanged();
 				}
@@ -111,12 +113,12 @@ public class Server {
 		}
 		private boolean HandleClientCommand(BoardPosition coords) throws InterruptedException{
 			Cell bp = board.getCell(coords);
-			if(bp.isOcupiedByGameElement() && !bp.getGameElement().isAlive()) {
+			if(bp.isOcupiedByGameElement() && !bp.getGameElement().isAlive() && !(bp.getGameElement() instanceof Killer)  && !bp.isOcupiedByGoal() ){
 				board.getCell(coords).removeGameElement(bp.getGameElement());
 				return true;
 			}
-			if(bp.isOcupiedBySnake() && bp.getOcuppyingSnake().isInterrupted()) {
-				board.removeSnake(coords);
+			if(bp.isOcupiedBySnake() && !bp.getOcuppyingSnake().isAlive()) {
+				board.removeSnake(bp.getOcuppyingSnake());
 				return true;
 			}
 			return false;

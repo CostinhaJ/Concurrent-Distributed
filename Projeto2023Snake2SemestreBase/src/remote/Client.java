@@ -70,7 +70,7 @@ public class Client{
 	
 	public static void main(String[] args) throws IOException {
 		// TODO		
-		new Client().runClient();;
+		new Client().runClient();
 
 	}	
 

@@ -19,7 +19,7 @@ import game.Snake;
 public abstract class Board extends Observable {
 	protected Cell[][] cells;
 	private BoardPosition goalPosition;
-	public static final long PLAYER_PLAY_INTERVAL = 200;
+	public static final long PLAYER_PLAY_INTERVAL = 100;
 	public static final long REMOTE_REFRESH_INTERVAL = 200;
 	public static final int WIDTH = 30;
 	public static final int HEIGHT = 30;
@@ -140,6 +140,14 @@ public abstract class Board extends Observable {
 
 	public void addSnake(Snake snake) {
 		snakes.add(snake);
+	}
+	
+	public void removeSnake(Snake snake) {
+		for( Cell c : snake.getCells()){
+			c.release();
+			c.removeObstacle();
+		}
+		snakes.remove(snake);
 	}
 
 	public void moveObstacle(Obstacle obstacle) {

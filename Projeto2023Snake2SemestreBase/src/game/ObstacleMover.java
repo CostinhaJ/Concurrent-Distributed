@@ -43,7 +43,6 @@ public class ObstacleMover extends Thread {
 			board.requestCyclycBarrier();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}		
 	}
 }

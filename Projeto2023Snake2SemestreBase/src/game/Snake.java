@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class Snake extends Thread {
 
-	private boolean killed = false ;
+	public boolean killed = false ;
 	protected LinkedList<Cell> cells = new LinkedList<Cell>();
 	protected int size = 5;
 	private int id;
